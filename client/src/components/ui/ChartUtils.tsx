@@ -90,22 +90,30 @@ interface ScrollButtonProps {
 const ScrollButton = ({ icon, onClick, disabled }: ScrollButtonProps) => {
   const Icon = icon
   const [isPressed, setIsPressed] = React.useState(false)
-  const intervalRef = React.useRef<number | null>(null)
+  const intervalRef = React.useRef<ReturnType<typeof setInterval> | null>(null)
 
   React.useEffect(() => {
     if (isPressed) {
       intervalRef.current = setInterval(() => {
         onClick?.()
       }, 300)
-    } else {
-      clearInterval(intervalRef.current as number)
+    } else if (intervalRef.current) {
+      clearInterval(intervalRef.current)
+      intervalRef.current = null
     }
-    return () => clearInterval(intervalRef.current as number)
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current)
+      }
+    }
   }, [isPressed, onClick])
 
   React.useEffect(() => {
     if (disabled) {
-      clearInterval(intervalRef.current as number)
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current)
+        intervalRef.current = null
+      }
       setIsPressed(false)
     }
   }, [disabled])
@@ -166,7 +174,7 @@ const Legend = React.forwardRef<HTMLOListElement, LegendProps>((props, ref) => {
   const scrollButtonsRef = React.useRef<HTMLDivElement>(null)
   const [hasScroll, setHasScroll] = React.useState<HasScrollProps | null>(null)
   const [isKeyDowned, setIsKeyDowned] = React.useState<string | null>(null)
-  const intervalRef = React.useRef<number | null>(null)
+  const intervalRef = React.useRef<ReturnType<typeof setInterval> | null>(null)
 
   const checkScroll = React.useCallback(() => {
     const scrollable = scrollableRef?.current
@@ -215,10 +223,15 @@ const Legend = React.forwardRef<HTMLOListElement, LegendProps>((props, ref) => {
       intervalRef.current = setInterval(() => {
         keyDownHandler(isKeyDowned)
       }, 300)
-    } else {
-      clearInterval(intervalRef.current as number)
+    } else if (intervalRef.current) {
+      clearInterval(intervalRef.current)
+      intervalRef.current = null
     }
-    return () => clearInterval(intervalRef.current as number)
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current)
+      }
+    }
   }, [isKeyDowned, scrollToTest])
 
   const keyDown = (e: KeyboardEvent) => {

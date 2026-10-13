@@ -13,7 +13,6 @@ function Dashboard () {
   const [data, setData] = useState<DataIU[]>([])
   const [recaudo, setRecaudo] = useState<RecaudoI | undefined>(undefined)
   const [fecha, setFecha] = useState<string>()
-  const [error, setError] = useState<string | null>(null)
   // Obtener la fecha actual en formato YYYY-MM-DD
   const today = new Date().toISOString().split('T')[0]
 
@@ -29,7 +28,7 @@ function Dashboard () {
       } catch (err) {
         if (err) {
           if (err) {
-            setError('Error al obtener los datos de la cartera')
+            console.error('Error al obtener los datos de cartera:', err)
           }
         }
       }
@@ -41,7 +40,7 @@ function Dashboard () {
         setRecaudo(res.data)
       } catch (err) {
         if (err) {
-          setError('Error al obtener los datos de recaudo')
+          console.error('Error al obtener los datos de recaudo:', err)
         }
       }
     }
