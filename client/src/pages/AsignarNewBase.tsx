@@ -2,7 +2,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRoot, Tab
 import { AginarNuevaBaseComponent } from '../components/AsignarBase'
 import { PropsCrating } from '../types/interface'
 import { API_URL } from '../utils/contanst'
-import { logger } from '../utils/logger'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
@@ -25,7 +24,9 @@ const AsignarNewBase = () => {
   useEffect(() => {
     axios.get(`${API_URL}/usersSinBase`)
       .then(res => setData(res.data))
-      .catch(error => logger.error(error))
+      .catch(error => {
+        console.error('Error al obtener los datos de usuarios sin base:', error.response?.data?.message || error.message)
+      })
   }, [])
 
   const handleAssignClick = (item: UserSinBase) => {

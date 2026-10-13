@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from 'react'
 import { formatValue } from '../utils/funtions'
 import { useAuth } from '../auth/AuthProvider'
 import { API_URL } from '../utils/contanst'
-import { logger } from '../utils/logger'
 import axios from 'axios'
 
 import UpdatesBasesInfo from '../components/UpdateBasesInfo'
@@ -32,11 +31,11 @@ const BasesDetalle = () => {
     // Llamada a la API
     axios.get(`${API_URL}/baseDetalle/${id}`)
       .then(response => setData(response.data))
-      .catch(error => { logger.error(error) })
+      .catch(error => { console.log(error) })
 
     axios.get(`${API_URL}/updatesBases/${id}`)
       .then(response => setUpdates(response.data))
-      .catch(error => { logger.error(error) })
+      .catch(error => { console.log(error) })
   }, [id, pedirData])
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -50,7 +49,6 @@ const BasesDetalle = () => {
 
     axios.post(`${API_URL}/updateBase`, { ...newData, VINCULADO: id, BASE_ACT: data?.BASE, RASPE_ACT: data?.RASPE, LOGIN: user?.username })
       .then(response => {
-        logger.debug(response)
         if (response.status === 200) {
           formRef.current?.reset()
           setIsBaseEnabled(false)
@@ -60,7 +58,6 @@ const BasesDetalle = () => {
         }
       })
       .catch(error => {
-        logger.error(error)
         const msg = error.response.data.msg
         setError(msg)
       })
