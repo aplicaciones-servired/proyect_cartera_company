@@ -13,12 +13,11 @@ function Dashboard () {
   const [data, setData] = useState<DataIU[]>([])
   const [recaudo, setRecaudo] = useState<RecaudoI | undefined>(undefined)
   const [fecha, setFecha] = useState<string>()
-
+  const [error, setError] = useState<string | null>(null)
   // Obtener la fecha actual en formato YYYY-MM-DD
   const today = new Date().toISOString().split('T')[0]
 
   const handleFechaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value)
     setFecha(event.target.value)
   }
 
@@ -28,7 +27,11 @@ function Dashboard () {
         const res = await axios.get(`${API_URL}/resumenCartera`)
         setData(res.data)
       } catch (err) {
-        console.error(err)
+        if (err) {
+          if (err) {
+            setError('Error al obtener los datos de la cartera')
+          }
+        }
       }
     }
 
@@ -37,7 +40,9 @@ function Dashboard () {
         const res = await axios.get<RecaudoI>(`${API_URL}/resumenRecaudo?fecha=${fecha || ''}`)
         setRecaudo(res.data)
       } catch (err) {
-        console.error(err)
+        if (err) {
+          setError('Error al obtener los datos de recaudo')
+        }
       }
     }
 

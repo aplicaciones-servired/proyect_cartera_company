@@ -1,0 +1,5 @@
+# Description: En desarrollo se debe apuntar manualmente a la URL de la API y al endpoint de login
+# En producción debe quedar como en este ejemplo. ya que el nginx se encargará de redirigir las peticiones a la API
+
+VITE_API_URL=http://localhost/api/cartera/v1
+VITE_LOGIN_URL=http://localhost:9010/api/v2

@@ -1,6 +1,7 @@
 import { connOracle } from '../connections/oracledb';
 import { RowType } from '../types/interface';
 import { Connection } from 'oracledb';
+import { logger } from '../utils/logger';
 
 const FunBetweenDates = (startDate: string, endDate: string) => `tvn.fecha BETWEEN TO_DATE('${startDate}', 'DD/MM/YYYY') AND TO_DATE('${endDate}', 'DD/MM/YYYY')`;
 
@@ -56,14 +57,14 @@ export async function reportConsolidadoVenta(fecha1: string, fecha2: string, doc
 
     return { rows, metaData }
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     throw new Error('Error al intentar obtener los datos');
   } finally {
     if (connection) {
       try {
         await connection.close();
       } catch (closeError) {
-        console.error('Error closing connection', closeError);
+        logger.error('Error closing connection', closeError);
       }
     }
   }

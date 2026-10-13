@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { FormEvent, useState } from 'react'
 import { API_URL } from '../utils/contanst'
 import { toast } from 'sonner'
+import { logger } from '../utils/logger'
 import axios from 'axios'
 
 export function AginarNuevaBaseComponent ({ nombres, vinculado, funClose }: PropsCrating) {
@@ -21,7 +22,7 @@ export function AginarNuevaBaseComponent ({ nombres, vinculado, funClose }: Prop
     ev.preventDefault()
     axios.post(`${API_URL}/asignar-base`, { base, raspa, vinculado, login: user?.username })
       .then(res => {
-        console.log(res.data)
+        logger.debug(res.data)
         if (res.status === 201) {
           setMessage(res.data)
           setTimeout(() => {
@@ -30,7 +31,7 @@ export function AginarNuevaBaseComponent ({ nombres, vinculado, funClose }: Prop
         }
       })
       .catch(err => {
-        console.log(err)
+        logger.error(err)
         setError('Error al asignar nueva base')
       })
       .finally(() => {

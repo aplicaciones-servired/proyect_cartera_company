@@ -1,6 +1,7 @@
 import { connOracle_naos } from '../connections/oracledb.naos';
 import { RowType } from '../types/interface';
 import { Connection } from 'oracledb';
+import { logger } from '../utils/logger';
 
 const FunBetweenDates = (startDate: string, endDate: string) => `trunc (CJ.fechasys) between TO_DATE('${startDate}', 'DD/MM/YYYY') and TO_DATE('${endDate}', 'DD/MM/YYYY')`;
 
@@ -75,14 +76,14 @@ ORDER BY CJ.CCOSTO, CJ.fechasys, CJ.loginregistro, CJ.prs_documento
 
     return { rows, metaData }
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     throw new Error('Error al intentar obtener los datos');
   } finally {
     if (connection) {
       try {
         await connection.close();
       } catch (closeError) {
-        console.error('Error closing connection', closeError);
+        logger.error('Error closing connection', closeError);
       }
     }
   }

@@ -4,6 +4,7 @@ import { Cartera } from '../model/cartera.model';
 import { Bases } from '../model/bases.model';
 import { Request, Response } from 'express';
 import { fn } from 'sequelize';
+import { logger } from '../utils/logger';
 
 export const getAllBases = async (req: Request, res: Response) => {
   try {
@@ -17,7 +18,7 @@ export const getAllBases = async (req: Request, res: Response) => {
     })
     return res.status(200).json(result)
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return res.status(500).json(error)
   }
 }
@@ -40,7 +41,7 @@ export const getBaseDatalle = async (req: Request, res: Response) => {
     })
     return res.status(200).json(result)
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return res.status(500).json(error)
   }
 }
@@ -94,7 +95,7 @@ export const updateBase = async (req: Request, res: Response) => {
 
     return res.status(200).json('Base actualizada correctamente')
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return res.status(500).json(error)
   }
 
@@ -116,7 +117,7 @@ export const basesInfoUpdates = async (req: Request, res: Response) => {
     
     return res.status(200).json(reverseResult)
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return res.status(500).json(error)
   }
 }
@@ -143,7 +144,7 @@ export const usersSinBase = async (req: Request, res: Response) => {
     const userSinBase = resulst.filter((item: any) => item.Basis === null);
     return res.status(200).json(userSinBase)
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return res.status(500).json(error)
   }
 }
@@ -170,7 +171,7 @@ export const crearBase = async (req: Request, res: Response) => {
 
     return res.status(201).json('Base creada correctamente')
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return res.status(500).json(error)
   }
 }

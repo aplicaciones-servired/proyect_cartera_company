@@ -7,7 +7,7 @@ import { API_URL } from '../utils/contanst'
 import axios from 'axios'
 import { toast } from 'sonner'
 
-export default function ReportMngrv2() {
+export default function ReportMngrv2 () {
   const [data, setData] = useState<Response | null>(null)
   const [documento, setDocumento] = useState<string>('')
   const [fecha1, setFecha1] = useState<string>('')
@@ -27,12 +27,15 @@ export default function ReportMngrv2() {
     setLoading(true)
     axios.post(`${API_URL}/carteraMngr`, { vinculado: documento, fecha1, fecha2 }, { timeout: 180000 })
       .then(response => {
-        console.log('first', response.data)
         setData(response.data)
         setLoading(false)
       })
       .catch(error => {
-        console.error(error)
+        if (error.response.status === 400) {
+          toast.error('Error al intentar obtener los datos', {
+            description: error.response.data.message
+          })
+        }
         setLoading(false)
       })
   }

@@ -8,7 +8,7 @@ import axios from 'axios'
 import { LOGIN_URL } from '../utils/contanst'
 import { useAuth } from '../auth/AuthProvider'
 
-function LoginPage(): JSX.Element {
+function LoginPage (): JSX.Element {
   const [errorString, setErrorString] = useState('')
   const [loading, setLoading] = useState(false)
   const [password, setPassword] = useState('')
@@ -22,7 +22,6 @@ function LoginPage(): JSX.Element {
     axios.post(`${LOGIN_URL}/login`, { username: user, password })
       .then(res => {
         if (res.status === 200) {
-          console.log(res.data)
           setIsAuthenticated(true)
         }
       })
@@ -35,7 +34,9 @@ function LoginPage(): JSX.Element {
           setErrorString('Usuario o contraseña incorrectos')
           return
         }
-        console.log(error)
+        if (error.response.status === 500) {
+          setErrorString('Error interno del servidor, contacte al administrador del sistema')
+        }
       })
       .finally(() => {
         setLoading(false)
@@ -80,12 +81,14 @@ function LoginPage(): JSX.Element {
             type='submit'
           >
             {
-              loading ? <div className='flex items-center justify-center gap-2'>
+              loading
+                ? <div className='flex items-center justify-center gap-2'>
                 <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 1 1 16 0A8 8 0 0 1 4 12z"></path>
                 </svg>
-                Iniciando ...</div> : 'Iniciar Sesion'
+                Iniciando ...</div>
+                : 'Iniciar Sesion'
             }
           </Button>
 

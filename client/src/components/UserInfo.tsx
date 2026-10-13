@@ -2,6 +2,7 @@ import { useAuth } from '../auth/AuthProvider'
 import { LOGIN_URL } from '../utils/contanst'
 import { User } from '../types/user'
 import { LogoutIcon } from './icons'
+import { logger } from '../utils/logger'
 import axios from 'axios'
 
 interface Props {
@@ -14,11 +15,11 @@ function UserInfo ({ user }: Props) {
   const handleLogout = () => {
     axios.get(`${LOGIN_URL}/logout`, )
       .then(res => {
-        console.log(res);
+        logger.debug(res);
         setUser(null)
         setIsAuthenticated(false)
       })
-      .catch(err => console.log(err))
+      .catch(err => logger.error(err))
   }
 
   return (

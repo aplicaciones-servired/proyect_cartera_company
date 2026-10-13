@@ -2,6 +2,7 @@ import { fetchCartera } from '../services/carteraSevices'
 import { useEffect, useMemo, useState } from 'react'
 import { CarteraI } from '../types/cartera'
 import { useSort } from './useSort'
+import { logger } from '../utils/logger'
 
 export const useCartera = () => {
   const [abs, setAbs] = useState<boolean>(false)
@@ -20,7 +21,7 @@ export const useCartera = () => {
         setData(data)
         setLoading(false)
       } catch (error) {
-        console.error('Failed to fetch data:', error)
+        logger.error('Failed to fetch data:', error)
         setLoading(false)
       }
     }

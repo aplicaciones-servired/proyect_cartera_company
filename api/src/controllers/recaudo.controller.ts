@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { Recaudo, Sellers } from '../model';
 import { fn, Op } from 'sequelize';
 import { reportRecaudo } from '../services/report.recaudos';
+import { logger } from '../utils/logger';
 
 export const getRecaudo = async (req: Request, res: Response) => {
   const { id, estado } = req.params;
@@ -21,7 +22,7 @@ export const getRecaudo = async (req: Request, res: Response) => {
 
     return res.status(200).json(result);
   } catch (error) {
-    console.error('Error en getRecaudo', error);
+    logger.error('Error en getRecaudo', error);
     return res.status(500).json({ message: 'Error en getRecaudo' });
   }
 }
@@ -57,7 +58,7 @@ export const getReportRecaudo = async (req: Request, res: Response) => {
 
     res.status(200).json(result)
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     res.status(500).json({ message: 'Error en getReportRecaudo' });
   }
 }
@@ -94,7 +95,7 @@ export const getReportOracle = async (req: Request, res: Response) => {
     });
     return res.status(200).json(data);
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ message: 'Error en getReportOracle' });
   }
 }
@@ -133,7 +134,7 @@ export const getReportOracleRecaudo = async (req: Request, res: Response) => {
     });
     return res.status(200).json(data);
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({ message: 'Error en getReportOracleRecaudo' });
   }
 }

@@ -28,7 +28,9 @@ const RecaudoDetail: React.FC<RecaudoDetailProps> = ({ id, estado, funCloseInfo 
         setLoading(false)
       })
       .catch(err => {
-        console.error('Error en getRecaudo', err)
+        if (err.response && err.response.status === 400) {
+          setError(err.response.data.message || 'Error al obtener los datos')
+        }
         setError('Error al obtener los datos')
         setLoading(false)
       })

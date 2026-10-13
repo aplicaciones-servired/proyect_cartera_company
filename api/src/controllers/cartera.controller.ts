@@ -4,6 +4,7 @@ import { connMngrOra } from '../connections/mngr'
 import { Request, Response } from 'express'
 import { Bases, Cartera, Sellers } from '../model';
 import { z } from 'zod';
+import { logger } from '../utils/logger';
 
 const schema = z.object({
   fecha1: z.string(),
@@ -40,7 +41,7 @@ export const getCartera = async (req: Request, res: Response) => {
     const mapeado = mapCarteraResults(results);
     res.status(200).json(mapeado);
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     res.status(500).json({ message: 'Internal server error', error });
   }
 }
@@ -125,7 +126,7 @@ export const getReportMngr = async (req: Request, res: Response) => {
 
     res.status(200).json({ cartera: data, CarteraInicial, Seller: SellerPowerBi, base: base?.BASE || 0 });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     res.status(500).json({ message: 'Internal server error', error });
   } finally {
     if (connetion) {

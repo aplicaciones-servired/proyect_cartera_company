@@ -1,5 +1,6 @@
 import { DB_ORACLE_DIR, DB_ORACLE_DIR_TNS, DB_ORACLE_NAME, DB_MNG_USER, DB_MNG_PASS } from '../config'
 import oracledb, { Pool } from 'oracledb';
+import { logger } from '../utils/logger';
 
 oracledb.initOracleClient({ libDir: DB_ORACLE_DIR });
 
@@ -16,7 +17,7 @@ export async function connMngrOra(): Promise<Pool | Error> {
 
     return pool;
   } catch (error) {
-    console.error('Error connecting to Oracle database', error);
+    logger.error('Error connecting to Oracle database', error);
     return error as Error
   } 
 }

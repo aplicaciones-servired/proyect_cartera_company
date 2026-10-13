@@ -35,7 +35,13 @@ export default function ReportClienteGanadores() {
 
     axios.post<DataReporte[]>(`${API_URL}/reportRecaudo`, { fecha1: date1.toString().slice(0, 10), fecha2: date2.toString().slice(0, 10), zona })
       .then(res => setData(res.data))
-      .catch(err => console.log(err))
+      .catch(err => {
+        if (err.response.status === 400) {
+          toast.error('Error al intentar obtener los datos', {
+            description: err.response.data.message
+          })
+        }
+      })
       .finally(() => setLoading(false))
   }
 

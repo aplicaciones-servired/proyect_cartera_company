@@ -11,6 +11,7 @@ const BasesPage = () => {
   const [data, setData] = useState<BasesI[]>([])
   const [asc, setAsc] = useState<boolean>(true)
   const { user } = useAuth()
+  const [error, setError] = useState<string | null>(null)
   const navigate = useNavigate()
 
   const [vinculado, setVinculado] = useState<string>('')
@@ -18,7 +19,9 @@ const BasesPage = () => {
   useEffect(() => {
     axios.get(`${API_URL}/getAllBases`)
       .then(response => setData(response.data))
-      .catch(error => console.log(error))
+      .catch(error => {
+        setError('Error al obtener los datos, contacte al administrador del sistema')
+      })
   }, [])
 
   const handleClick = (id: string) => {

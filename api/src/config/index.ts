@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { logger } from '../utils/logger';
 
 const envSchama = z.object({
   PORT: z.string().min(2),
@@ -22,7 +23,7 @@ const envSchama = z.object({
 const { success, data, error } = envSchama.safeParse(process.env)
 
 if (!success) {
-  console.error(error.format());
+  logger.error(error.format());
   process.exit(1);
 }
 

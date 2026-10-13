@@ -1,5 +1,6 @@
 import { Bases, Cartera, Recaudo, Sellers, Carteraxhoras } from "../model"
 import { col, fn, Op } from "sequelize"
+import { logger } from "../utils/logger"
 
 // * Constantes para códigos de empresa
 const EMPRESAS_INCLUIDAS = ['101', '102']
@@ -44,7 +45,7 @@ export const getResumenCartera = async (): Promise<CarteraIR[]> => {
 
     return results as CarteraIR[]
   } catch (error) {
-    console.error(error)
+    logger.error(error)
     throw error
   }
 }
@@ -59,7 +60,7 @@ export const getDetalleRecaudoServired = async () => {
 
     return result as unknown as DetalleRecaudo[];
   } catch (error) {
-    console.error(error)
+    logger.error(error)
     throw error
   }
 }
@@ -74,7 +75,7 @@ export const getDetalleRecaudoMultired = async () => {
 
     return result as unknown as DetalleRecaudo[];
   } catch (error) {
-    console.error(error)
+    logger.error(error)
     throw error
   }
 }
@@ -97,7 +98,7 @@ export const getCarteraXhoras = async (fecha?: string) => {
         fechaFiltro = esValidaFecha ? fechaLimpia : fn('CURDATE');
       } else {
         // Si el formato no es válido, usar fecha actual
-        console.warn(`Formato de fecha inválido: ${fechaLimpia}. Usando fecha actual.`);
+        logger.warn(`Formato de fecha inválido: ${fechaLimpia}. Usando fecha actual.`);
         fechaFiltro = fn('CURDATE');
       }
     } else {
@@ -159,7 +160,7 @@ export const getCarteraXhoras = async (fecha?: string) => {
 
     return empresasCompletas
   } catch (error) {
-    console.error('Error en getCarteraXhoras:', error)
+    logger.error('Error en getCarteraXhoras:', error)
     throw error
   }
 }
